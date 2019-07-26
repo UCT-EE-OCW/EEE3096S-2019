@@ -39,6 +39,7 @@ To run some experiments for C, you need to make edits to certain files and then 
 #### Editing bit widths
 To edit bit withs, you need to make edits to
 - globals.h
+  - This is a large file, so editing it will be laggy. Just be patient :)
 - Prac2.c (if you're working on the unthreaded version)
 - Prac2_threaded.c (if you're working on the threaded version)
 - makefile (if you need to run at 16 bits)
