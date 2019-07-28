@@ -24,4 +24,4 @@ run_threaded:
     bin/Prac2_threaded
 
 clean: 
-    rm -rf $(PROG) $(OBJ) 
+    rm -rf $(PROG) $(OBJS) 
