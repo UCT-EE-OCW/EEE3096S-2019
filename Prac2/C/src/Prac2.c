@@ -14,7 +14,7 @@ int main(int argc, char**argv){
         result[i] = data[i] * carrier[i];
     }
     double t = toc();
-    printf("Time %lf\n",t);
+    printf("Time: %lf ms\n",t/1e-3);
     printf("End Unthreaded Test\n");
     return 0;
 }
