@@ -1,20 +1,16 @@
 #include "Prac2_threaded.h"
 
-
 float result [SAMPLE_COUNT];
 
 // This is each thread's "main" function.  It receives a unique ID
 void* Thread_Main(void* Parameter){
     int ID = *((int*)Parameter);
-    tic();
-    int x, y;
+    //tic();
+    int y;
     //Divide up array into number of threads
     for(y = ID*(SAMPLE_COUNT/Thread_Count); y < (ID+1)*(SAMPLE_COUNT/Thread_Count); y++){
         result[y]=0;
-        for (x = 0; x < SAMPLE_COUNT; x++){
-            // For each sample, of the carrier, multiple with all the data
-            result[y] += carrier[y]*data[x];
-        }
+        result[y] += carrier[y]*data[y];
     }
     return 0;
 }

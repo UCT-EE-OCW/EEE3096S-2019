@@ -1,5 +1,5 @@
 .RECIPEPREFIX +=
-CC = arm-linux-gnueabihf-g++
+CC = g++
 CFLAGS = -lm -lrt
 INCLUDE = -ITools
 
