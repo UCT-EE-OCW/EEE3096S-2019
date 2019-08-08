@@ -8,11 +8,13 @@ OBJS = obj/*
 
 
 default:
+    mkdir -p bin obj
     $(CC) $(INCLUDE) $(CFLAGS) -c src/Prac2.c -o obj/Prac2.o
     $(CC) $(INCLUDE) $(CFLAGS) -c Tools/Timer.cpp -o obj/Timer.o
     $(CC) -o bin/Prac2 obj/Prac2.o obj/Timer.o $(CFLAGS)
 
 threaded:
+    mkdir -p bin obj
     $(CC) $(INCLUDE) $(CFLAGS) -c src/Prac2_threaded.c -o obj/Prac2_threaded.o
     $(CC) $(INCLUDE) $(CFLAGS) -c Tools/Timer.cpp -o obj/Timer.o
     $(CC) -o bin/Prac2_threaded obj/Prac2_threaded.o obj/Timer.o $(CFLAGS) -pthread
