@@ -20,7 +20,6 @@
 
 using namespace std;
 
-int chan = 0;
 bool playing = true; // should be set false when paused
 bool stopped = false; // If set to true, program should close
 unsigned char buffer[2][BUFFER_SIZE][2];
@@ -46,9 +45,9 @@ int setup_gpio(void){
     //Set up wiring Pi
     wiringPiSetup();
     //setting up the buttons
-
-    //setting upt the SPI interface
-    
+	//TODO
+    //setting up the SPI interface
+    //TODO
     return 0;
 }
 
@@ -68,11 +67,17 @@ void *playThread(void *threadargs){
     //You need to only be playing if the stopped flag is false
     while(!stopped){
         //Code to suspend playing if paused
+		//TODO
         
         //Write the buffer out to SPI
-        
+        //TODO
+		
         //Do some maths to check if you need to toggle buffers
-        
+        buffer_location++;
+        if(buffer_location >= BUFFER_SIZE) {
+            buffer_location = 0;
+            bufferReading = !bufferReading; // switches column one it finishes one column
+        }
     }
     
     pthread_exit(NULL);
@@ -90,6 +95,7 @@ int main(){
      */ 
     
     //Write your logic here
+	//TODO
     
     /*
      * Read from the file, character by character
@@ -106,13 +112,50 @@ int main(){
      */
      
     // Open the file
-     
+    char ch;
+    FILE *filePointer;
+    printf("%s\n", FILENAME);
+    filePointer = fopen(FILENAME, "r"); // read mode
+
+    if (filePointer == NULL) {
+        perror("Error while opening the file.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int counter = 0;
+    int bufferWriting = 0;
+
     // Have a loop to read from the file
+	 while((ch = fgetc(filePointer)) != EOF){
+        while(threadReady && bufferWriting==bufferReading && counter==0){
+            //waits in here after it has written to a side, and the thread is still reading from the other side
+            continue;
+        }
+        //Set config bits for first 8 bit packet and OR with upper bits
+        buffer[bufferWriting][counter][0] = ; //TODO
+        //Set next 8 bit packet
+        buffer[bufferWriting][counter][1] = ; //TODO
+
+        counter++;
+        if(counter >= BUFFER_SIZE+1){
+            if(!threadReady){
+                threadReady = true;
+            }
+
+            counter = 0;
+            bufferWriting = (bufferWriting+1)%2;
+        }
+
+    }
      
     // Close the file
-     
+    fclose(filePointer);
+    printf("Complete reading"); 
+	 
     //Join and exit the playthread
-
+	pthread_join(thread_id, NULL); 
+    pthread_exit(NULL);
+	
     return 0;
 }
 
