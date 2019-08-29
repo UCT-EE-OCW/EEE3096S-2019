@@ -95,7 +95,16 @@ int main(){
      */ 
     
     //Write your logic here
-	//TODO
+	pthread_attr_t tattr;
+    pthread_t thread_id;
+    int newprio = 99;
+    sched_param param;
+    
+    pthread_attr_init (&tattr);
+    pthread_attr_getschedparam (&tattr, &param); /* safe to get existing scheduling param */
+    param.sched_priority = newprio; /* set the priority; others are unchanged */
+    pthread_attr_setschedparam (&tattr, &param); /* setting the new scheduling param */
+    pthread_create(&thread_id, &tattr, playThread, (void *)1); /* with new priority specified *
     
     /*
      * Read from the file, character by character
