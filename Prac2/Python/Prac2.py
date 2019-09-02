@@ -15,8 +15,8 @@ import Timing
 from data import carrier, data
 
 # Define values.
-c = carrier *30
-d = data *30
+c = carrier
+d = data
 result = []
 
 # Main function
