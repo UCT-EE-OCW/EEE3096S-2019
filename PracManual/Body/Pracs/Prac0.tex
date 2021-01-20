@@ -1,0 +1,33 @@
+\newpage
+\setcounter{section}{-1}
+\section{Prac 0 - Setting up and Connecting to Your Pi}
+The Raspberry Pi is a powerful SBC. While it can be used as a lightweight computer, its true strengths come from how versatile the platform is\footnote{Some examples include \href{https://www.home-assistant.io/hassio/}{home automation}, \href{https://xbian.org/getting-started/}{media centre} or even as a \href{https://github.com/takyonxxx/BalanceRobot-Raspberry-Pi}{robot}}.  We will be using the Pi throughout the rest of the course in both practicals and the mini project.  Before you attend the first tutorial session is is required that you setup your Pi so it is ready for operation.  In addition, if you are unfamiliar with Linux, Git, ssh, and bash we strongly recommend you go through the additional exercises as outlined in the lab handbook.
+
+\subsection{Required before attending the first lab session: Setup your Pi }
+Before arriving at the first practical lab session of this course you are required to do the following. If you have trouble completing the following you should attend the hotseat on \textbf{Friday the 19th of July} to get help before the first lab session.
+\begin{enumerate}
+    \item Setup your Pi and get SSH working, as per the lab handbook.
+    \item Create a GitHub account, and sign up for the \href{https://education.github.com/pack}{GitHub Education Pack}.
+    \item Enable Ethernet pass-through on the Pi to give it internet access. Instructions can be found in the lab handbook.
+    \item Fetch the practical repository
+    \begin{enumerate}
+        \item SSH in to the Pi
+        \item Ensure you have connectivity by trying to ping a website such as google.com. If not, debug your connection.
+        \item Fetch the repository
+            \begin{lstlisting}[gobble=12]
+            $ git clone --depth=1 https://github.com/kcranky/EEE3096S.git PracSource/
+            \end{lstlisting}
+        \item Create a copy of the original git folder
+            \begin{lstlisting}[gobble=12]
+            $ mkdir mypracs
+            $ cp -r PracSource mypracs
+            \end{lstlisting}
+        \item Remove the git settings
+            \begin{lstlisting}[gobble=12]
+            $ cd mypracs
+            $ rm -rf .git
+            \end{lstlisting}
+        \item Initialise a new repository, and put it on GitHub as per the instructions in "A Quick Git Get Go" in the lab handbook.
+    \end{enumerate}
+\end{enumerate}
+

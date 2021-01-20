@@ -1,0 +1,70 @@
+\documentclass[onecolumn, a4paper, 11pt, titlepage]{article}
+\renewcommand{\baselinestretch}{1} 
+\bibliographystyle{IEEEtran}
+\usepackage[none]{hyphenat}
+\usepackage{a4wide}
+\usepackage{float}
+
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{flafter}
+\usepackage{placeins}
+\usepackage{cite}
+%-------------------------------------------------------------------------------
+
+\newcommand{\micro}{\textmu}
+\newcommand{\Ohm}{$\Omega$}
+
+\newcommand{\etal}       {\emph{et~al.}}
+\newcommand{\ie}         {i.e.}
+\newcommand{\bookcite}[2]{\cite{#1}~pg.~#2}
+%-------------------------------------------------------------------------------
+
+\newcounter{author}
+\renewcommand{\theauthor}{\stepcounter{author}\raisebox{1ex}{\small\fnsymbol{author}}}
+%-------------------------------------------------------------------------------
+
+\renewcommand{\today}{%
+ \number\day\space%
+ \ifcase\month%
+  \or January%
+  \or February%
+  \or March%
+  \or April%
+  \or May%
+  \or June%
+  \or July%
+  \or August%
+  \or September%
+  \or October%
+  \or November%
+  \or December%
+ \fi%
+ \space\number\year%
+}
+%-------------------------------------------------------------------------------
+\setlength{\parskip}{1em}
+\input{Preamble/TablesAndFigures}
+\input{Preamble/HyperRef}
+\setcounter{secnumdepth}{4}
+%-------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{%
+  language=[LaTeX]TeX,
+  backgroundcolor=\color{gray!25},
+  basicstyle=\ttfamily,
+  breaklines=true,
+  columns=fullflexible,
+  frame=single,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+
+\usepackage{booktabs}% http://ctan.org/pkg/booktabs
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+\usepackage{longtable}
+\usepackage{multicol}

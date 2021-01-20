@@ -1,0 +1,40 @@
+\newpage
+\begin{center}
+    \rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries Mini Projects}\\
+	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	\includegraphics[scale = 0.5]{Figures/Greenhouse.jpg}\\[1 cm]
+	\textsc{\Large EEE3096S}\\[0.5 cm]
+	\textsc{\large Embedded Systems II}\\[0.5 cm]
+	\textsc{\LARGE University of Cape Town}\\[0.5 cm]
+\end{center}
+
+\section{Overview}
+The mini-project is a chance for you to use what you have learnt in this course and test your problem-solving skills. The projects use everything learnt in the previous practicals - so here's hoping you paid attention and remembered those! All students need to do Mini Project A. Only CS students need to do Mini Project B.
+
+\subsection{Scenario}
+A biology student has approached you with the task of monitoring their private greenhouse. They request that you monitor time of day, time since the system has been running, light levels, temperature, and humidity. They have a device that monitors humidity. It outputs an analog voltage between 0 and 3.3V. For testing and development purposes, you decide to use a potentiometer to mimic the humidity sensor. With the experience you've gained working with the Raspberry Pi over the past few months, you decide that this is a good chance to test your newly acquired knowledge and establish an effective development environment for further projects.
+
+The biology student has a computer in their greenhouse that they use to play music to their plants as a part of their research, so they are able to access the Raspberry Pi on location through a terminal or VNC. However, they wish to be able to also monitor the data remotely. They say their younger brother, who plays with Arduinos, has spoken a lot about \href{https://blynk.io/}{Blynk} for IoT devices. You decide to look into these options for remote monitoring. 
+
+The also request that your device output a voltage to their own custom recording equipment. The voltage should be calculated as follows:
+$$
+V_{out} = \frac{Light Reading}{1023} \times Humidity Voltage Reading
+$$
+If the output voltage goes under 0.65V or over 2.65V, an alarm should sound. A button should be added to dismiss the alarm, and the alarm should only sound if it the previous alarm dismissal was more than 3 minutes ago (i.e. the alarm can only sound every 3 minutes).\textbf{The three minute timer should start when the alarm is sounded, not when the alarm is dismissed.}
+
+
+\subsection{Basic Details}
+Your objective for Mini Project A and B is to design an environment logger. An environment logger interacts with the world around it by measuring any number of factors from GPS location to air pollution. While a single sensor is useful to monitor a single location, many can be scattered around a broader area to monitor that area as well as any patterns emerging in that broader area.
+
+Project A and B differ in how that data is presented to end users. Project A will require use of a single Raspberry Pi, which relays data to and is controlled via an app on your phone created through Blynk.
+
+Project B requires two Raspberry Pis. Instead of using Blynk, one Pi works as the environment sensor. It will send the gathered data using a protocol called MQTT to a node red server, which will be hosted on the second Raspberry Pi. Users should be able to log in to a hot spot hosted on the second Raspberry Pi and access the Node Red server to see the data being captured.
+
+The objective of these mini-projects is to get some experience on what it might be like to create and deploy a real IoT device - what the pracs in the course have been leading up to!
+
+\input{Body/MiniProjects/ProjA}
+\input{Body/MiniProjects/ProjB}
+
+
+

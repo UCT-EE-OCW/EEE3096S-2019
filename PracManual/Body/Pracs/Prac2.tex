@@ -1,0 +1,174 @@
+\newpage
+\section{Prac 2 - Python vs. C}
+\label{sec:Prac2}
+
+\subsection{Overview}
+\textbf{Pre-prac Requirements are ABSOLUTELY REQUIRED for this practical}. The practical is fairly straightforward, but there is a lot of information to take in and you will likely not be able to complete it correctly if you do not understand the concepts.
+
+This practical is designed to teach you core concepts which are fundamental to developing embedded systems in industry. It will show you the importance of C or C++ for embedded systems development. We'll start by running a program in Python, and comparing it to the exact same program, but written in C++. This shows us the importance of using a particular language. From there, we we'll try and improve the performance of the C code as much as possible, by using different bit widths, compiler flags, threading, and particular hardware available in the ARM Processor. 
+
+The quest for optimisation can lead one down a long, unending spiral. What is important to take away from this practical is awareness of concepts, the ability to use good practice when benchmarking.
+
+There's a considerable flaw in this investigation in that there is no comparison of results to our golden measure. Meaning, by the end of the practical, you will (ideally) have considerably faster execution times - but your speed-up could be entirely useless if the result you're getting is not accurate. Comparison of accuracy is left as a task for bonus marks.
+
+\subsection{Pre-prac Requirements}
+\subsubsection{Knowledge areas}
+This section covers what you will need to know before starting the practical. This content will be covered in the pre-prac videos.
+\begin{itemize}
+    \item Introduction to benchmarking concepts
+    \item Introduction to cache warming and good testing methodology (multiple runs, wall clock time, speed up)
+    \item Instruction set architecture, bit widths and hardware optimisations
+    \item Makefiles
+    \item Report writing
+\end{itemize}
+\subsubsection{Videos}
+Some videos were made to help you with this practical. Here they are:
+\begin{itemize}
+    \item \href{https://www.youtube.com/watch?v=oLTB5LsXLUA}{An Introduction to Benchmarking}
+    \item \href{https://www.youtube.com/watch?v=XkITUjMg0s4}{Compilers, Toolchains and Makefiles}
+    \item \href{https://www.youtube.com/watch?v=SdVh2Es4E1o}{Report Writing}
+\end{itemize}
+
+
+\subsubsection{Submissions for Pre-Prac}
+Before the practical begins, you need to submit a PDF on Vula of the IEEE report, with the Title, Authors and Introduction edited to reflect the details of this practical. A due date will be available on Vula.
+
+\subsection{Outcomes}
+By the end of this practical you will have an appreciation for the importance of benchmarking, lower level languages, ISA and integrated hardware.
+
+\begin{table}[H]
+\begin{tabular}{ll}
+\begin{tabular}[c]{@{}l@{}}\tabitem Benchmarking\\ \tabitem Latex and Overleaf\\ \tabitem Bit widths\\  \end{tabular} & \begin{tabular}[c]{@{}l@{}}\tabitem Compiler Flags\\ \tabitem Instruction Sets\\ \tabitem Report Writing\\ \end{tabular} \\
+\end{tabular}%
+\end{table}
+
+
+\subsection{Deliverables}
+At the end of this practical, you must:
+\begin{itemize}
+    \item Submit a report no longer than 3 (three) pages detailing your investigation. You must use IEEE Conference style. You must cite relevant literature.
+\end{itemize}
+
+\subsection{Hardware Required}
+\begin{itemize}
+    \item Raspberry Pi
+    \item SD Card
+    \item Ethernet Cable
+\end{itemize}
+
+\subsection{Walkthrough}
+\subsubsection{Overview}
+\begin{enumerate}
+    \item Establish a golden measure in Python
+    \item Compare Python implementation to C++ implementation, in terms of accuracy and speed
+    \item Optimise the C++ code through parallelization and compare speeds
+    \item Optimise the C++ code through compiler flags
+    \item Optimise the C++ code through different bit widths, ensuring that that changes in accuracy are accounted for
+    \item Optimise the C++ code using hardware level features available on the Raspberry Pi
+    \item Optimise the C++ code using a combination of parallelization, compiler flags, bit widths, and hardware level features
+\end{enumerate}
+
+\subsubsection{Detailed}
+\begin{enumerate}
+    \item Start by getting the resources off of GitHub
+    \begin{lstlisting}
+    $ cd ~/PracSource
+    $ git pull origin master
+    \end{lstlisting}
+    This updates the repository to ensure you have the Prac2 source files.
+    \item Read the README in the Prac2 directory. \href{https://github.com/kcranky/EEE3096S/blob/master/Prac2/README.md}{Here} is a direct link.
+    \item Enter into the Prac 2 source files using the \verb|cd| command. Run the Python code to establish a golden measure. Be sure to use proper testing methodology as explained in the pre-prac content.
+    \item Now, run the C code (don't forget to compile it first, and every time you make a change to the source code!). This code has no optimisations in it, and also uses floats - just like the Python Implementation \footnote{Floats in Python can get really weird - they don't stick at a given 32 bits. But for the sake of this practical, we're going to assume they do.}. 
+    \item How does the execution speed compare between Python and C when using floats of 64 bits? Record your results and comment on the differences.
+    \item Now let's optimise through using multi-threading.
+    \begin{enumerate}
+        \item You can compile the threaded version by running \verb|make threaded|
+        \item The number of threads is defined in \verb|Prac2_threaded.h|
+        \item Run the code for 2 threads, 4 threads, 8 threads, 16 threads and 32 threads.
+        \item Does the benchmark run faster every time? Record your results, and discuss the effects of threading in your report.
+    \end{enumerate}
+    \item Record your results, taking note of the most performant one. What can you infer from the results?
+    \item Now let's optimise through some compiler flags
+    \begin{enumerate}
+        \item Open the makefile, and in the \verb|$(CFLAGS)| section, experiment with the following options:
+        \begin{table}[H]
+        \centering
+        \caption{Compiler Flags for optimisation}
+        \label{tbl:flags}
+        \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Flag} & \textbf{Effect} \\ \hline
+        -O0 & \begin{tabular}[c]{@{}l@{}}No optimisations, makes debugging logic easier. \\ The default\end{tabular} \\ \hline
+        -O1 & \begin{tabular}[c]{@{}l@{}}Basic optimisations for speed and size, compiles a little \\ slower but not much\end{tabular} \\ \hline
+        -O2 & More optimisations focused on speed \\ \hline
+        -O3 & \begin{tabular}[c]{@{}l@{}}Many optimisations for speed. Compiled code  may be larger\\  than lower levels\end{tabular} \\ \hline
+        -Ofast & \begin{tabular}[c]{@{}l@{}}Breaks a few rules to go much faster. Code might not \\ behave as expected\end{tabular} \\ \hline
+        -Os & \begin{tabular}[c]{@{}l@{}}Optimise for smaller compiled code size. Useful if you \\ don’t have much storage space\end{tabular} \\ \hline
+        -Og & Optimise for debugging, with slower code \\ \hline
+        -funroll-loops & \begin{tabular}[c]{@{}l@{}}Can be added to any of the above, unrolls loops into repeated \\ assembly in some cases to improve speed at cost of size\end{tabular} \\ \hline
+        \end{tabular}
+        \end{table}
+    \end{enumerate}
+    \item Record your results, taking note of the most performant one. Which compiler flags offered the best speed up? Is it what you expected?
+    \item Now let's optimise using bit widths
+    \begin{enumerate}
+        \item The standard code runs using \textbf{float}
+        \item Start by finding out how many bits this is.
+        \item Run the code using 3 bit-widths: double, float, and \_\_fp16. How do they compare in terms of speed and accuracy? Note: for \_\_fp16, you need to specify the flag "-mfp16-format=ieee" under your \textdollar CC flags in the makefile
+    \end{enumerate}
+    \item Now let's optimise using hardware level support on the Raspberry Pi
+    \begin{enumerate}
+        \item The Pi has various instruction sets. See what they are by running "cat /proc/cpuinfo" in a terminal
+        \item You can set a floating point hardware accelerator with the "-mfpu=" flag
+        \item The important ones for you to try are:
+            \begin{table}[H]
+            \centering
+            \caption[Compiler Flags for the Floating Point Unit]{Compiler Flags for the Floating Point Unit}
+            \label{tbl:CompilerFlags}
+            \begin{tabular}{|l|l|}
+            \hline
+            \textbf{mfpu Flag} & \textbf{Description} \\ \hline
+            none specified & Default implementation \\ \hline
+            vfpv3 & Version 3 of the floating point unit \\ \hline
+            vfpv3-fp16 & Equivalent to VFPv3 but adds hfp16 support \\ \hline
+            fpv4 & Version 4 of the floating point unit \\ \hline
+            neon-fp-armv8 & Advanced SIMD with Floating point \\ \hline
+            neon-fp16 & Advanced SIMD with support for half-precision \\ \hline
+            vfpv3xd & Single Precision floating point \\ \hline
+            vfpv3xd-fp16 & Single precision floating point, plus support for fp16 \\ \hline
+            \end{tabular}
+            \end{table}
+    \end{enumerate}
+    \item Find the best combination of bit-width and compiler flags to give you the best possible speed up over your golden measure implementation. 
+    \item Is there anything else you can think of that may increase performance? Perform your experiments and record your results. Bonus marks will be awarded for additional experimentation. (Hint: How can you test that the results of the Python code - our golden measure - and our fully optimised code produce the same results?)
+    \item Finally, record your methodology, results and conclusion in IEEE Conference format using Latex (Overleaf is recommended as an editor - See instructions in handbook).
+\end{enumerate}
+
+\subsection{The Report}
+The report you need to complete needs to follow the IEEE Conference paper convention. This style you can find online. It is recommended you use Overleaf as an editor, as it allows collaboration and handles all packages and set up for you. In your report, you should cover the following:
+\begin{itemize}
+    \item In your introduction, briefly discuss the objectives and core finding of your research
+    \item In your methodology, discuss each experiment and how you plan to run it.
+    \item In your results, record all your results in either tables or graphs. Be sure to include only what is relevant, but not miss out on anything that might be interesting. Briefly justify why you got the results you did, and what each experiment did to affect the run time of your results.
+    \item In your conclusion, mention what you did, and what your final findings are (e.g. "The program ran fastest when..."). This should only be a few sentences long.
+\end{itemize}
+
+\subsection{Marking}
+Your report will be marked according to the following:
+\begin{itemize}
+    \item Following instructions
+    \item Covering all aspects listed in this practical
+    \item The quality of your report
+\end{itemize}
+
+Additional marks will be awarded for:
+\begin{itemize}
+    \item Further experimentation
+    \item Optimisation beyond what is described in this practical
+\end{itemize}
+
+Marks will be deducted for the following:
+\begin{itemize}
+    \item Not using \LaTeX
+    \item IEEE Conference paper format not used
+\end{itemize}
